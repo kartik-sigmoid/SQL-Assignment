@@ -11,9 +11,11 @@ Questions:
     6. Extract properties with an average price of more than $500
 
 Solution:
-    1) 
-    2) SELECT COUNT(*) - COUNT(DISTINCT listing_id, date, available, price )
-        FROM dummy;
+    1) (SELECT date FROM airbnb_calender ORDER BY date LIMIT 1) UNION (SELECT date FROM airbnb_calender ORDER BY date DESC LIMIT 1);
+    2) delete sub from
+        (select row_number() over(partition by listing_id, date,available,price order by listing_id) cnt
+        from airbnb) sub
+        where sub.cnt > 1;
     3) SELECT (S
         SELECT COUNT(*) 
             FROM airbnb_calendar
@@ -25,9 +27,7 @@ Solution:
             FROM airbnb_calendar
             WHERE available = 'f'
             GROUP BY listing_id
-        ) AS UNAVAILABLE,
-        UNAVAILABLE/365,
-        AVAILABLE/365;
+        ) AS UNAVAILABLE;
     4)
         a) SELECT listing_id, percent FROM (
             SELECT listing_id, (count(case when available = 't' then 1 end) / count(*)) * 100 AS PERCENT
