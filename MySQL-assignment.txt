@@ -10,7 +10,7 @@ Questions:
     5. Create a table with max, min and average price of each property
     6. Extract properties with an average price of more than $500
 
-Solution:
+Solutions:
     1) (SELECT date FROM airbnb_calender ORDER BY date LIMIT 1) UNION (SELECT date FROM airbnb_calender ORDER BY date DESC LIMIT 1);
     2) delete sub from
         (select row_number() over(partition by listing_id, date,available,price order by listing_id) cnt
